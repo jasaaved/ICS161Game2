@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour {
     private GameObject shotgun;
     private GameObject handgun;
     private GameObject melee;
+    private int current;
 
 
     void Awake()
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour {
         shotgun = transform.FindChild("shotgun").gameObject;
         handgun = transform.FindChild("gun").gameObject;
         melee = transform.FindChild("crowbar").gameObject;
-
+        current = 0;
         shotgun.SetActive(false);
         handgun.SetActive(false);
         melee.SetActive(false);
@@ -47,6 +48,12 @@ public class PlayerController : MonoBehaviour {
         yVelAdj = Input.GetAxis("yMove");
         xFire = Input.GetAxis("xShoot");
         yFire = Input.GetAxis("yShoot");
+        
+        if (Input.GetButtonDown("Switch"))
+        {
+            print("hello");
+            SwapWeapons();
+        }
 
         Move(xVelAdj, yVelAdj, xFire, yFire);
         WalkingAnimation();
@@ -74,7 +81,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void WalkingAnimation()
+    private void WalkingAnimation()
     {
         if (xVelAdj != 0 || yVelAdj != 0)
         {
@@ -85,6 +92,38 @@ public class PlayerController : MonoBehaviour {
             anim.SetBool("Walking", false);
             anim.SetBool("Running", false);
         }
+    }
+
+    private void SwapWeapons()
+    {
+        current++;
+
+        if (current == 3)
+        {
+            current = 0;
+            anim.SetBool("Shotgun", false);
+            anim.SetBool("Handgun", false);
+            shotgun.SetActive(false);
+            handgun.SetActive(false);
+        }
+
+        if (current == 1)
+        {
+            anim.SetBool("Shotgun", true);
+            anim.SetBool("Handgun", false);
+            shotgun.SetActive(true);
+            handgun.SetActive(false);
+        }
+
+        if (current == 2)
+        {
+            anim.SetBool("Shotgun", false);
+            anim.SetBool("Handgun", true);
+            shotgun.SetActive(false);
+            handgun.SetActive(true);
+        }
+
+
     }
 
 
