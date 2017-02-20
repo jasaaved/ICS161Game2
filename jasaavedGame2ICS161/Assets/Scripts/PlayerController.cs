@@ -43,6 +43,15 @@ public class PlayerController : MonoBehaviour {
 
     void Update()
     {
+        if (current == 0)
+        {
+            speed = 8f;
+       }
+
+        else
+        {
+            speed = 6f;
+        }
 
         xVelAdj = Input.GetAxis("xMove");
         yVelAdj = Input.GetAxis("yMove");
@@ -51,7 +60,6 @@ public class PlayerController : MonoBehaviour {
         
         if (Input.GetButtonDown("Switch"))
         {
-            print("hello");
             SwapWeapons();
         }
 
