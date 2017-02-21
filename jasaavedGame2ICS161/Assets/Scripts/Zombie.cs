@@ -7,9 +7,11 @@ public class Zombie : MonoBehaviour {
     [HideInInspector]
     public NavMeshAgent nav;
     private GameObject player;
-    private bool kill;
+    public bool kill;
     private float timer;
     private Animator anim;
+    private GameObject Canvas;
+
 
     // Use this for initialization
     void Start () {
@@ -17,7 +19,9 @@ public class Zombie : MonoBehaviour {
         nav = GetComponent<NavMeshAgent>();
         kill = false;
         timer = 5f;
-        anim = GetComponent<Animator>();
+        anim = this.gameObject.GetComponentInChildren<Animator>();
+        Canvas = GameObject.Find("Canvas").gameObject;
+        Canvas = Canvas.transform.FindChild("Health").gameObject;
 
     }
 	
@@ -46,9 +50,19 @@ public class Zombie : MonoBehaviour {
 
     private void WalkingAnimation()
     {
-        if (nav.remainingDistance == 0)
+        anim.SetBool("Attack", true);
+        if (nav.remainingDistance <= nav.stoppingDistance)
         {
             anim.SetBool("Walking", false);
+            if (kill)
+            {
+                Canvas.GetComponent<BeatingHealthBar>().currentValue -= 0.05f;
+                if (Canvas.GetComponent<BeatingHealthBar>().currentValue <= 0)
+                {
+                    Canvas.GetComponent<BeatingHealthBar>().currentValue = 0;
+                }
+            }
+            
         }
         else
         {

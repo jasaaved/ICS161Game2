@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour {
     private GameObject handgun;
     private GameObject melee;
     private int current;
+    public bool move;
 
 
     void Awake()
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour {
         shotgun.SetActive(false);
         handgun.SetActive(false);
         melee.SetActive(false);
+        move = true;
     }
 
     void Update()
@@ -63,7 +65,10 @@ public class PlayerController : MonoBehaviour {
             SwapWeapons();
         }
 
-        Move(xVelAdj, yVelAdj, xFire, yFire);
+        if (move)
+        {
+            Move(xVelAdj, yVelAdj, xFire, yFire);
+        }
         WalkingAnimation();
     }
 
