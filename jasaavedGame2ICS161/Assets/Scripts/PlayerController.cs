@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    // Components
-    Vector3 movement;                   // The vector to store the direction of the player's movement.
-    Animator anim;                      // Reference to the animator component.
-    Rigidbody playerRigidbody;          // Reference to the player's rigidbody.
+    
+    Vector3 movement;                   
+    Animator anim;                     
+    Rigidbody playerRigidbody;          
     private PlayerController playerController;
 
 
-    // Movement
-    public float speed = 6f;            // The speed that the player will move at.
+
+    public float speed = 6f;            
     public float xVelAdj;
     public float yVelAdj;
     private float xFire;
@@ -20,8 +20,11 @@ public class PlayerController : MonoBehaviour {
     private GameObject shotgun;
     private GameObject handgun;
     private GameObject melee;
-    private int current;
+    public int current;
     public bool move;
+    public GameObject canvas;
+    private GameObject health;
+
 
 
     void Awake()
@@ -29,6 +32,7 @@ public class PlayerController : MonoBehaviour {
         playerRigidbody = GetComponent<Rigidbody>();
         playerController = GetComponent<PlayerController>();
         anim = GetComponent<Animator>();
+
     }
 
     private void Start()
@@ -41,6 +45,8 @@ public class PlayerController : MonoBehaviour {
         handgun.SetActive(false);
         melee.SetActive(false);
         move = true;
+        canvas = GameObject.Find("Canvas").gameObject;
+        health = canvas.transform.FindChild("Health").gameObject;
     }
 
     void Update()
@@ -96,14 +102,28 @@ public class PlayerController : MonoBehaviour {
 
     private void WalkingAnimation()
     {
-        if (xVelAdj != 0 || yVelAdj != 0)
+        if (move)
         {
-            anim.SetBool("Walking", true);
+            if (xVelAdj != 0 || yVelAdj != 0)
+            {
+                anim.SetBool("Walking", true);
+            }
+            else
+            {
+                anim.SetBool("Walking", false);
+                anim.SetBool("Running", false);
+            }
         }
+
         else
         {
             anim.SetBool("Walking", false);
             anim.SetBool("Running", false);
+        }
+
+        if (health.GetComponent<BeatingHealthBar>().currentValue <= 0)
+        {
+            anim.SetBool("Dead", true);
         }
     }
 

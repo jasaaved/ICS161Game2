@@ -23,8 +23,19 @@ public class ZombieFolder : MonoBehaviour {
         }
     }
 
-    void OnDestroy()
+    public void Wave(int i)
     {
-        gamemanager.GetComponent<GameManager>().score += 100;
+        if (i > 25)
+        {
+            i = 25;
+        }
+        for (int t = i*2; i >= 0; i--)
+        {
+            GameObject Zomb = transform.GetChild(t).gameObject;
+            Zomb.GetComponent<Zombie>().kill = true;
+            Zomb.transform.parent = null;
+        }
     }
+
+
 }

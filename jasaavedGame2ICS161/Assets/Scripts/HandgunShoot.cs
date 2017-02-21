@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class HandgunShoot : MonoBehaviour {
     public GameObject bullets;
+    private GameObject gamemanager;
     private bool RTinuse;
 
 	// Use this for initialization
 	void Start () {
         RTinuse = false;
-		
+        gamemanager = GameObject.Find("GameManager").gameObject;
 	}
 	
 	// Update is called once per frame
@@ -30,6 +31,15 @@ public class HandgunShoot : MonoBehaviour {
 
     void Fire()
     {
+        if (transform.parent.name == "shotgun" && gamemanager.GetComponent<GameManager>().shotgun_ammo <= 0)
+        {
+            return;
+        }
+
+        if (transform.parent.name == "gun" && gamemanager.GetComponent<GameManager>().handgun_ammo <= 0)
+        {
+            return;
+        }
         // Create the Bullet from the Bullet Prefab
         var bullet = (GameObject)Instantiate(
             bullets,
@@ -43,5 +53,15 @@ public class HandgunShoot : MonoBehaviour {
 
         // Destroy the bullet after 2 seconds
         Destroy(bullet, 2.0f);
+
+        if (transform.parent.name == "shotgun")
+        {
+            gamemanager.GetComponent<GameManager>().shotgun_ammo -= 0.25f;
+        }
+
+        if (transform.parent.name == "gun")
+        {
+            gamemanager.GetComponent<GameManager>().handgun_ammo--;
+        }
     }
 }
