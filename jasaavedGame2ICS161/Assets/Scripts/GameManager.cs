@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour {
 
             if (supply_time <= 0)
             {
-                supply.text = "Supply Drop: ";
+                supply.text = "Supplies Arrived!";
                 if (spawnmore)
                 {
                     SpawnSupply();
@@ -100,8 +100,8 @@ public class GameManager : MonoBehaviour {
             {
                 for (int i = 50 - zombf.transform.childCount; i >= 0; i--)
                 {
-                    int s = Random.Range(0, 1);
 
+                    int s = Random.Range(0, 2);
                     if (s == 0)
                     {
                         Instantiate(z0, zombf.transform);

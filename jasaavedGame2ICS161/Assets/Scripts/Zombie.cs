@@ -7,6 +7,7 @@ public class Zombie : MonoBehaviour {
     [HideInInspector]
     public NavMeshAgent nav;
     private GameObject player;
+    private GameObject gamemanager;
     public bool kill;
     private float timer;
     private Animator anim;
@@ -22,6 +23,7 @@ public class Zombie : MonoBehaviour {
         anim = this.gameObject.GetComponentInChildren<Animator>();
         Canvas = GameObject.Find("Canvas").gameObject;
         Canvas = Canvas.transform.FindChild("Health").gameObject;
+        gamemanager = GameObject.Find("GameManager").gameObject;
 
     }
 	
@@ -68,5 +70,10 @@ public class Zombie : MonoBehaviour {
         {
             anim.SetBool("Walking", true);
         }
+    }
+
+    private void OnDestroy()
+    {
+        gamemanager.GetComponent<GameManager>().score += 100;
     }
 }
