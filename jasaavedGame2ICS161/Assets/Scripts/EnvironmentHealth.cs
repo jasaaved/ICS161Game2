@@ -17,18 +17,16 @@ public class EnvironmentHealth : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Projectile")
+        if (other.transform.tag == "Handgun")
         {
-            if (other.transform.parent.name == "gun")
+            health -= 5;
+        }
+
+
+        if (other.transform.tag == "Shotgun")
             {
-                health -= 5;
+                health -= 4;
             }
 
-            if (other.transform.parent.name == "shotgun")
-            {
-                health -= 15;
-            }
-            
-        }
     }
 }

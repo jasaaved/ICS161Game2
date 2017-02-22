@@ -44,8 +44,8 @@ public class GameManager : MonoBehaviour {
         player = GameObject.Find("Player").gameObject;
         handgun_ammo = 50;
         shotgun_ammo = 25;
-        supply_time = 90f;
-        zombie_time = 30f;
+        supply_time = 45f;
+        zombie_time = 15f;
         spawnmore = true;
         current_wave = 1;
 }
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
 
             if (zombie_time <= 0)
             {
-                zombie_time = 30f;
+                zombie_time = 15f;
                 zombf.GetComponent<ZombieFolder>().Wave(current_wave);
                 current_wave++;
             }
@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour {
 
         if (gameover)
         {
+            player.GetComponent<PlayerController>().move = false;
             canvas.GetComponent<CanvasScript>().GameOver();
             endscore.text = t + score.ToString();
  
@@ -138,8 +139,8 @@ public class GameManager : MonoBehaviour {
 
     public void GotSupply()
     {
-        handgun_ammo += Random.Range(0, 50);
-        shotgun_ammo += Random.Range(0, 25);
+        handgun_ammo += Random.Range(0, 100);
+        shotgun_ammo += Random.Range(0, 75);
         health.GetComponent<BeatingHealthBar>().currentValue += Random.Range(0, 5);
         
         if (health.GetComponent<BeatingHealthBar>().currentValue > 5)
@@ -147,7 +148,7 @@ public class GameManager : MonoBehaviour {
             health.GetComponent<BeatingHealthBar>().currentValue = 5;
         }
 
-        supply_time = 90f;
+        supply_time = 45f;
         spawnmore = true;
 
     }

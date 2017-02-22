@@ -47,7 +47,7 @@ public class Zombie : MonoBehaviour {
 
     public Vector3 RandomDestination()
     {
-        return new Vector3(Random.Range(30, 53), 0, Random.Range(-4, 7));
+        return new Vector3(Random.Range(30, 40), 0, Random.Range(-4, 10));
     }
 
     private void WalkingAnimation()
@@ -56,14 +56,6 @@ public class Zombie : MonoBehaviour {
         if (nav.remainingDistance <= nav.stoppingDistance)
         {
             anim.SetBool("Walking", false);
-            if (kill)
-            {
-                Canvas.GetComponent<BeatingHealthBar>().currentValue -= 0.05f;
-                if (Canvas.GetComponent<BeatingHealthBar>().currentValue <= 0)
-                {
-                    Canvas.GetComponent<BeatingHealthBar>().currentValue = 0;
-                }
-            }
             
         }
         else
@@ -74,6 +66,10 @@ public class Zombie : MonoBehaviour {
 
     private void OnDestroy()
     {
-        gamemanager.GetComponent<GameManager>().score += 100;
+        if (gamemanager != null)
+        {
+            gamemanager.GetComponent<GameManager>().score += 100;
+        }
+
     }
 }

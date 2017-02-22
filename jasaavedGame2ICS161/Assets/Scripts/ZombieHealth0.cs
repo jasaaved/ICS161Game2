@@ -4,35 +4,36 @@ using UnityEngine;
 
 public class ZombieHealth0 : MonoBehaviour {
     public int health;
+    private GameObject h_ui;
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
         if (health <= 0)
         {
-            Destroy(this.transform.parent);
+            Destroy(this.transform.parent.gameObject);
         }
 		
 	}
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Projectile")
+        if (other.tag == "Handgun")
         {
-            if (other.transform.parent.name == "gun")
-            {
-                health -= 17;
-            }
-
-            if (other.transform.parent.name == "shotgun")
-            {
-                health -= 25;
-            }
+            health -= 40;
 
         }
+
+
+        if (other.tag == "Shotgun")
+        {
+            health -= 25;
+        }
+
     }
+
 }

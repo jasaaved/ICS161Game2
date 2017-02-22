@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Projectile")
+        if (other.tag != "Handgun" && other.tag != "Shotgun")
             Destroy(this.gameObject); 
     }
 }
