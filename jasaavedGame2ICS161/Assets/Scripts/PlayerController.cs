@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour {
     public bool move;
     public GameObject canvas;
     private GameObject health;
+    public bool running;
 
 
 
@@ -40,35 +41,61 @@ public class PlayerController : MonoBehaviour {
         shotgun = transform.FindChild("shotgun").gameObject;
         handgun = transform.FindChild("gun").gameObject;
         melee = transform.FindChild("crowbar").gameObject;
-        current = 0;
+        current = 1;
         shotgun.SetActive(false);
         handgun.SetActive(false);
         melee.SetActive(false);
         move = true;
         canvas = GameObject.Find("Canvas").gameObject;
         health = canvas.transform.FindChild("Health").gameObject;
+        SwapWeapons();
+        running = false;
+        speed = 6f;
     }
 
     void Update()
     {
-        if (current == 0)
-        {
-            speed = 8f;
-       }
-
-        else
-        {
-            speed = 6f;
-        }
 
         xVelAdj = Input.GetAxis("xMove");
         yVelAdj = Input.GetAxis("yMove");
         xFire = Input.GetAxis("xShoot");
         yFire = Input.GetAxis("yShoot");
-        
-        if (Input.GetButtonDown("Switch"))
+
+        if (Input.GetButtonDown("Switch") && Input.GetAxisRaw("Fire3") == 0)
         {
             SwapWeapons();
+        }
+
+        if(Input.GetAxisRaw("Fire3") != 0 && !running)
+        {
+            anim.SetBool("Shotgun", false);
+            anim.SetBool("Handgun", false);
+            shotgun.SetActive(false);
+            handgun.SetActive(false);
+            running = true;
+            speed = 8f;
+        }
+
+        if (Input.GetAxisRaw("Fire3") == 0 && running)
+        {
+            speed = 6f;
+            running = false;
+
+            if (current == 0)
+            {
+                anim.SetBool("Shotgun", true);
+                anim.SetBool("Handgun", false);
+                shotgun.SetActive(true);
+                handgun.SetActive(false);
+            }
+
+            if (current == 1)
+            {
+                anim.SetBool("Shotgun", false);
+                anim.SetBool("Handgun", true);
+                shotgun.SetActive(false);
+                handgun.SetActive(true);
+            }
         }
 
         if (move)
@@ -131,16 +158,13 @@ public class PlayerController : MonoBehaviour {
     {
         current++;
 
-        if (current == 3)
+        if (current == 2)
         {
             current = 0;
-            anim.SetBool("Shotgun", false);
-            anim.SetBool("Handgun", false);
-            shotgun.SetActive(false);
-            handgun.SetActive(false);
+
         }
 
-        if (current == 1)
+        if (current == 0)
         {
             anim.SetBool("Shotgun", true);
             anim.SetBool("Handgun", false);
@@ -148,7 +172,7 @@ public class PlayerController : MonoBehaviour {
             handgun.SetActive(false);
         }
 
-        if (current == 2)
+        if (current == 1)
         {
             anim.SetBool("Shotgun", false);
             anim.SetBool("Handgun", true);
