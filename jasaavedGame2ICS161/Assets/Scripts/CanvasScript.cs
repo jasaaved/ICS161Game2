@@ -25,4 +25,9 @@ public class CanvasScript : MonoBehaviour {
         during.SetActive(false);
         after.SetActive(true);
     }
+
+    public void Winner()
+    {
+        during.SetActive(false);
+    }
 }

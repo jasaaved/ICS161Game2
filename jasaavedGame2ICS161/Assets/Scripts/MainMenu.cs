@@ -24,4 +24,9 @@ public class MainMenu : MonoBehaviour {
     {
         SceneManager.LoadScene("DemoScene");
     }
+
+    public void LoadSurvival()
+    {
+        SceneManager.LoadScene("Survival");
+    }
 }

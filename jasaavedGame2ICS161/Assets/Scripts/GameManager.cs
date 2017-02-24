@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour {
     private int current_wave;
     private float ztime;
     private float stime;
+    public bool time_up;
+    public GameObject success;
 
     // Use this for initialization
     void Start () {
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour {
         zm.SetActive(false);
         ztime = 0f;
         stime = 0f;
+        time_up = false;
 }
 	
 	void Update () {
@@ -78,7 +81,7 @@ public class GameManager : MonoBehaviour {
             ar.SetActive(false);
         }
 
-        if (!gameover)
+        if (!gameover && !time_up)
         {
             cscore.text = t + score.ToString();
             supply.text = t3 + (Mathf.Round(supply_time * 100f) / 100f).ToString();
@@ -140,12 +143,19 @@ public class GameManager : MonoBehaviour {
             }
         }
 
-        if (gameover)
+        if (gameover && !time_up)
         {
             player.GetComponent<PlayerController>().move = false;
             canvas.GetComponent<CanvasScript>().GameOver();
             endscore.text = t + score.ToString();
  
+        }
+
+        if (time_up)
+        {
+            player.GetComponent<PlayerController>().move = false;
+            success.SetActive(true);
+            canvas.GetComponent<CanvasScript>().Winner();
         }
 
 
